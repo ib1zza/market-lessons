@@ -1,0 +1,21 @@
+@import "vars";
+
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px; 
+  background-color: $headerColor;
+}
+
+.navigation>:not(:last-child) {
+  margin-right: 15px;
+}
+
+.link {
+  color: $navLinkColor;
+}
+
+.link_active {
+  color: $navLinkColorActive;
+}

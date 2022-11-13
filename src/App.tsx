@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./App.css";
-import Product from "./components/Product";
-import { useProducts } from "./hooks/products";
 import { Route, Routes } from "react-router-dom";
 import Products from "./pages/Products";
 import Navigation from "./components/Navigation";

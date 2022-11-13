@@ -1,0 +1,14 @@
+@import "vars";
+
+.input {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 5px 10px;
+
+  max-width: 100%;
+  background-color: $bgAccent;
+  color: $textDark;
+  border-radius: $borderRadius;
+
+}
