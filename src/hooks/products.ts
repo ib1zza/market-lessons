@@ -30,6 +30,34 @@ export const useProducts = (link: string) => {
   return { products, loading, error };
 };
 
+export const useSort = (mas: IProduct[]) => {
+  const [sortedProducts, setSortedProducts] = useState<IProduct[]>([]);
+  const [query, setQuery] = useState("");
+  const [priseMin, setPriseMin] = useState<number>(0);
+  const [priseHigh, setPriseHigh] = useState<number>(0);
+
+  useEffect(() => {
+    setSortedProducts(
+      mas.filter(
+        (el) =>
+          el.price >= priseMin &&
+          (!priseHigh || el.price <= priseHigh) &&
+          (!query || el.title.toLowerCase().includes(query.toLowerCase()))
+      )
+    );
+  }, [priseMin, priseHigh, query, mas]);
+
+  return {
+    query,
+    priseMin,
+    priseHigh,
+    setQuery,
+    setPriseHigh,
+    setPriseMin,
+    sortedProducts,
+  };
+};
+
 // export const useFetch = (url: string) => {
 //   const [error, setError] = useState<string>("");
 //   const [data, setData] = useState();
