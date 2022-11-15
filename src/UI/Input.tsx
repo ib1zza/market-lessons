@@ -1,5 +1,5 @@
 import React from "react";
-import s from "../css/Input.module.scss";
+import s from "./Input.module.scss";
 
 interface InputProps {
   children?: React.ReactNode;

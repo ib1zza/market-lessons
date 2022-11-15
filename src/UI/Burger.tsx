@@ -1,5 +1,5 @@
 import React from "react";
-import s from "../css/Burger.module.scss";
+import s from "./Burger.module.scss";
 
 interface BurgerProps {
   isActive: boolean;

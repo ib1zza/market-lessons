@@ -10,10 +10,6 @@ interface ProductProps {
   product: IProduct;
 }
 
-const setIbg = (attribute: string) => {
-  return `style={{backgroundImage: "url(${attribute})"} className={"ibg}`;
-};
-
 const ProductPage: React.FC<ProductProps> = ({ product }) => {
   const [similarProducts, setSimilarProducts] = useState<IProduct[]>([]);
   const { loading, products, error } = useProducts(

@@ -4,7 +4,7 @@ import { useProducts, useSort } from "../hooks/products";
 import SearchBar from "../UI/SearchBar";
 import Input from "../UI/Input";
 import { IProduct } from "../data/products";
-import ProductPage from "./ProductPage";
+import ProductPage from "../components/ProductPage";
 
 const Products = () => {
   const { loading, products, error } = useProducts(
@@ -31,7 +31,7 @@ const Products = () => {
         {error && <p className={"text-center text-red-600"}>{error}</p>}
         <div className={"container max-w-2xl pt-5"}>
           {sortedProducts.map((el) => (
-            <Product info={el} key={el.id} />
+            <Product product={el} key={el.id} />
           ))}
         </div>
         <div

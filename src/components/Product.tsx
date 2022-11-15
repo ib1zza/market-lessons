@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { IProduct, products } from "../data/products";
+import { IProduct } from "../data/products";
 
 interface ProductProps {
-  info: IProduct;
+  product: IProduct;
 }
 
-const Product: React.FC<ProductProps> = ({ info }) => {
+const Product: React.FC<ProductProps> = ({ product }) => {
   const [isDescriptionOpened, setIsDescriptionOpened] =
     useState<boolean>(false);
 
@@ -20,18 +20,18 @@ const Product: React.FC<ProductProps> = ({ info }) => {
       }
     >
       <div className={"w-1/4"}>
-        <img src={info.image} className={""} alt={info.title} />
+        <img src={product.image} className={""} alt={product.title} />
       </div>
       <div className={"w-1/2"}>
-        <p>{info.title}</p>
-        <p className={"font-bold"}>{info.price + "$"}</p>
+        <p>{product.title}</p>
+        <p className={"font-bold"}>{product.price + "$"}</p>
 
         {isDescriptionOpened && (
           <div className={"w-full"}>
-            <span className={"font-bold"}>{info.description}</span>
+            <span className={"font-bold"}>{product.description}</span>
             <p>
               Rate:{" "}
-              <span style={{ fontWeight: "bold" }}>{info.rating.rate}</span>
+              <span style={{ fontWeight: "bold" }}>{product.rating.rate}</span>
             </p>
           </div>
         )}

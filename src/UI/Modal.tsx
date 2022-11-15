@@ -1,5 +1,5 @@
 import React from "react";
-import s from "../css/Modal.module.scss";
+import s from "./Modal.module.scss";
 
 interface ModalProps {
   hideF: () => void;

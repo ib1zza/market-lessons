@@ -1,5 +1,5 @@
 import React from "react";
-import s from "../css/ContextMenu.module.scss";
+import s from "./ContextMenu.module.scss";
 interface ContextMenuProps {
   children?: React.ReactNode;
   title?: React.ReactNode;
