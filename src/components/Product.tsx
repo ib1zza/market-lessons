@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { IProduct } from "../data/products";
+import { Link } from "react-router-dom";
 
 interface ProductProps {
   product: IProduct;
@@ -20,7 +21,9 @@ const Product: React.FC<ProductProps> = ({ product }) => {
       }
     >
       <div className={"w-1/4"}>
-        <img src={product.image} className={""} alt={product.title} />
+        <Link to={`${product.id}`}>
+          <img src={product.image} className={""} alt={product.title} />
+        </Link>
       </div>
       <div className={"w-1/2"}>
         <p>{product.title}</p>

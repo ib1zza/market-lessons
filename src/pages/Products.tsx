@@ -69,10 +69,6 @@ const Products = () => {
           </div>
         </div>
       </div>
-      {sortedProducts.length && <ProductPage product={sortedProducts[8]} />}
-      {sortedProducts.length && <ProductPage product={sortedProducts[2]} />}
-      {sortedProducts[40] && <ProductPage product={sortedProducts[40]} />}
-      {sortedProducts[11] && <ProductPage product={sortedProducts[11]} />}
     </>
   );
 };

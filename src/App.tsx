@@ -5,6 +5,7 @@ import Navigation from "./components/Navigation";
 import About from "./pages/About";
 import { Provider } from "react-redux";
 import { setupStore } from "./store/store";
+import ProductPage from "./components/ProductPage";
 
 const store = setupStore();
 
@@ -15,7 +16,8 @@ function App() {
         <Navigation />
         <Routes>
           <Route path={"/products"} element={<Products />} />
-          <Route path={"/about"} element={<About />}></Route>
+          <Route path={"/about"} element={<About />} />
+          <Route path={"/products/:id"} element={<ProductPage />} />
         </Routes>
       </Provider>
     </>

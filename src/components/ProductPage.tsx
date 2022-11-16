@@ -3,26 +3,37 @@ import { IProduct } from "../data/products";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Button from "../UI/Button";
-import { useProducts } from "../hooks/products";
+import { useProducts, useProduct } from "../hooks/products";
 import "../css/_ibg.scss";
+import { useParams } from "react-router-dom";
 
 interface ProductProps {
-  product: IProduct;
+  propsProduct?: IProduct;
 }
 
-const ProductPage: React.FC<ProductProps> = ({ product }) => {
+const ProductPage: React.FC<ProductProps> = ({ propsProduct }) => {
+  const { id } = useParams();
+  const { product } = useProduct(`https://fakestoreapi.com/products/${id}`);
   const [similarProducts, setSimilarProducts] = useState<IProduct[]>([]);
   const { loading, products, error } = useProducts(
     "https://fakestoreapi.com/products?limit=200"
   );
 
   useEffect(() => {
-    const n = products
-      .filter((el) => el.category === product.category && el.id !== product.id)
-      .slice(0, 5);
+    if (product !== undefined) {
+      const n = products
+        .filter(
+          (el) => el.category === product.category && el.id !== product.id
+        )
+        .slice(0, 5);
 
-    setSimilarProducts(n);
-  }, [products]);
+      setSimilarProducts(n);
+    }
+  }, [products, product]);
+
+  if (product === undefined) {
+    return <div>404 error. Product not found.</div>;
+  }
 
   return (
     <div>
@@ -49,11 +60,11 @@ const ProductPage: React.FC<ProductProps> = ({ product }) => {
       </div>
       <div className={"container mx-auto  max-w-6xl"}>
         <h1 className={"font-bold text-2xl text-center mb-8"}>See more:</h1>
-        <div className={"flex justify-between"}>
+        <div className={"flex justify-start [&>:not(:last-child)]:mr-[4%]"}>
           {similarProducts.map((el) => (
             <div
               className={
-                "w-1/6 flex flex-col border-2  rounded-xl overflow-hidden justify-between p-2"
+                "w-1/6 flex flex-col border-2  rounded-xl overflow-hidden justify-between p-2  "
               }
               key={el.id}
             >

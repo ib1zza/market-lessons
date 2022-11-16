@@ -30,6 +30,34 @@ export const useProducts = (link: string) => {
   return { products, loading, error };
 };
 
+export const useProduct = (link: string) => {
+  const [error, setError] = useState("");
+  const [product, setProduct] = useState<IProduct>();
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  async function fetchProducts() {
+    try {
+      setError("");
+      setLoading(true);
+      const response = await axios.get<IProduct>(link);
+      setProduct(response.data);
+    } catch (e) {
+      const error = e as AxiosError;
+      console.log(error.message);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  return { product, loading, error };
+};
+
 export const useSort = (mas: IProduct[]) => {
   const [sortedProducts, setSortedProducts] = useState<IProduct[]>([]);
   const [query, setQuery] = useState("");
