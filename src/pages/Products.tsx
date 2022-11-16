@@ -4,10 +4,10 @@ import { useProducts, useSort } from "../hooks/products";
 import SearchBar from "../UI/SearchBar";
 import Input from "../UI/Input";
 import { IProduct } from "../data/products";
-import ProductPage from "../components/ProductPage";
+import ProductPage from "./ProductPage";
 
 const Products = () => {
-  const { loading, products, error } = useProducts(
+  const { productsLoading, products, productsError } = useProducts(
     "https://fakestoreapi.com/products?limit=50"
   );
   const {
@@ -23,12 +23,14 @@ const Products = () => {
   return (
     <>
       <div className={"container mx-auto max-w-6xl pt-5 flex justify-between"}>
-        {loading && (
+        {productsLoading && (
           <div className={"font-bold text-2xl text-center w-full"}>
             loading please wait
           </div>
         )}
-        {error && <p className={"text-center text-red-600"}>{error}</p>}
+        {productsError && (
+          <p className={"text-center text-red-600"}>{productsError}</p>
+        )}
         <div className={"container max-w-2xl pt-5"}>
           {sortedProducts.map((el) => (
             <Product product={el} key={el.id} />

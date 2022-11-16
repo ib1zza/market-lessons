@@ -5,7 +5,7 @@ import Navigation from "./components/Navigation";
 import About from "./pages/About";
 import { Provider } from "react-redux";
 import { setupStore } from "./store/store";
-import ProductPage from "./components/ProductPage";
+import ProductPage from "./pages/ProductPage";
 
 const store = setupStore();
 

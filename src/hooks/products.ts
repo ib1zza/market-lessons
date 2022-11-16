@@ -3,23 +3,23 @@ import { IProduct } from "../data/products";
 import axios, { AxiosError } from "axios";
 
 export const useProducts = (link: string) => {
-  const [error, setError] = useState("");
+  const [productsError, setProductsError] = useState("");
   const [products, setProducts] = useState<IProduct[]>([]);
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [productsLoading, setProductsLoading] = useState<boolean>(false);
 
   async function fetchProducts() {
     try {
-      setError("");
-      setLoading(true);
+      setProductsError("");
+      setProductsLoading(true);
       const response = await axios.get<IProduct[]>(link);
       setProducts(response.data);
     } catch (e) {
       const error = e as AxiosError;
       console.log(error.message);
-      setError(error.message);
+      setProductsError(error.message);
     } finally {
-      setLoading(false);
+      setProductsLoading(false);
     }
   }
 
@@ -27,7 +27,7 @@ export const useProducts = (link: string) => {
     fetchProducts();
   }, []);
 
-  return { products, loading, error };
+  return { products, productsLoading, productsError };
 };
 
 export const useProduct = (link: string) => {
@@ -53,7 +53,7 @@ export const useProduct = (link: string) => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [link]);
 
   return { product, loading, error };
 };
