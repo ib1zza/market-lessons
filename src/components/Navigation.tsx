@@ -28,6 +28,9 @@ const Navigation = () => {
       <NavLink to={"/likes"} className={({ isActive }) => setStyles(isActive)}>
         Likes
       </NavLink>
+      <NavLink to={"/cart"} className={({ isActive }) => setStyles(isActive)}>
+        Cart
+      </NavLink>
     </div>
   );
 };

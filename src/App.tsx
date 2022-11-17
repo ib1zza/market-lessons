@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { setupStore } from "./store/store";
 import ProductPage from "./pages/ProductPage";
 import LikesPage from "./pages/LikesPage";
+import CartPage from "./pages/CartPage";
 
 const store = setupStore();
 
@@ -19,6 +20,7 @@ function App() {
         <Route path={"/about"} element={<About />} />
         <Route path={"/products/:id"} element={<ProductPage />} />
         <Route path={"/likes"} element={<LikesPage />} />
+        <Route path={"/cart"} element={<CartPage />} />
       </Routes>
     </Provider>
   );

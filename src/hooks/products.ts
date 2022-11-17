@@ -6,7 +6,7 @@ export const useProducts = (link: string) => {
   const [productsError, setProductsError] = useState("");
   const [products, setProducts] = useState<IProduct[]>([]);
 
-  const [productsLoading, setProductsLoading] = useState<boolean>(false);
+  const [productsLoading, setProductsLoading] = useState<boolean>(true);
 
   async function fetchProducts() {
     try {
@@ -33,7 +33,7 @@ export const useProducts = (link: string) => {
 export const useProductsByIds = (link: string, ids: Array<string>) => {
   const [productsError, setProductsError] = useState("");
   const [products, setProducts] = useState<IProduct[]>([]);
-  const [productsLoading, setProductsLoading] = useState<boolean>(false);
+  const [productsLoading, setProductsLoading] = useState<boolean>(true);
 
   async function fetchProducts() {
     try {
@@ -55,12 +55,13 @@ export const useProductsByIds = (link: string, ids: Array<string>) => {
       console.log(error.message);
       setProductsError(error.message);
     } finally {
-      setProductsLoading(false);
+      // setProductsLoading(false);
     }
   }
 
   useEffect(() => {
     fetchProducts();
+    setProductsLoading(false);
   }, [link, ids]);
 
   return { products, productsLoading, productsError };
@@ -70,7 +71,7 @@ export const useProduct = (link: string) => {
   const [error, setError] = useState("");
   const [product, setProduct] = useState<IProduct>();
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   async function fetchProducts() {
     try {

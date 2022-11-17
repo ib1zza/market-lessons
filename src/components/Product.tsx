@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { IProduct } from "../data/products";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { addLike, removeLike } from "../store/reducers/LikesSlice";
+import { addToCart, removeFromCart } from "../store/reducers/CartSlice";
 
 interface ProductProps {
   product: IProduct;
@@ -12,8 +13,13 @@ interface ProductProps {
 
 const Product: React.FC<ProductProps> = ({ product }) => {
   const liked = useAppSelector((state) => state.likesReducer.products);
+  const inCart = useAppSelector((state) => state.cartReducer.products);
   const dispatch = useAppDispatch();
   const likeBtnCol = liked.includes(String(product.id))
+    ? "bg-red-500 text-white"
+    : "bg-gray-100 text-gray-700";
+
+  const cartBtnCol = inCart.includes(String(product.id))
     ? "bg-red-500 text-white"
     : "bg-gray-100 text-gray-700";
 
@@ -23,6 +29,16 @@ const Product: React.FC<ProductProps> = ({ product }) => {
       console.log(product.id + "added");
     } else {
       dispatch(removeLike(String(product.id)));
+      console.log(product.id + "removed");
+    }
+  };
+
+  const cartHandler = () => {
+    if (!inCart.includes(String(product.id))) {
+      dispatch(addToCart(String(product.id)));
+      console.log(product.id + "added");
+    } else {
+      dispatch(removeFromCart(String(product.id)));
       console.log(product.id + "removed");
     }
   };
@@ -73,6 +89,15 @@ const Product: React.FC<ProductProps> = ({ product }) => {
         >
           {/*<span className={"mr-2"}>like</span>*/}
           <FontAwesomeIcon icon={faHeart} />
+        </button>
+        <button
+          className={
+            "flex items-center p-3 bg-red-400 rounded-full " + cartBtnCol
+          }
+          onClick={cartHandler}
+        >
+          {/*<span className={"mr-2"}>like</span>*/}
+          <FontAwesomeIcon icon={faCartShopping} />
         </button>
       </div>
     </div>
