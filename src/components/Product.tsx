@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { IProduct } from "../data/products";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,15 +15,16 @@ const Product: React.FC<ProductProps> = ({ product }) => {
   const liked = useAppSelector((state) => state.likesReducer.products);
   const inCart = useAppSelector((state) => state.cartReducer.products);
   const dispatch = useAppDispatch();
+
   const likeBtnCol = liked.includes(String(product.id))
     ? "bg-red-500 text-white"
-    : "bg-gray-100 text-gray-700";
+    : "bg-gray-200 text-gray-700";
 
   const cartBtnCol = inCart.includes(String(product.id))
     ? "bg-red-500 text-white"
-    : "bg-gray-100 text-gray-700";
+    : "bg-gray-200 text-gray-700";
 
-  const likesHandler = () => {
+  const likesHandler = useCallback(() => {
     if (!liked.includes(String(product.id))) {
       dispatch(addLike(String(product.id)));
       console.log(product.id + "added");
@@ -31,9 +32,11 @@ const Product: React.FC<ProductProps> = ({ product }) => {
       dispatch(removeLike(String(product.id)));
       console.log(product.id + "removed");
     }
-  };
+  }, [liked, product]);
 
-  const cartHandler = () => {
+  // useCallback();
+
+  const cartHandler = useCallback(() => {
     if (!inCart.includes(String(product.id))) {
       dispatch(addToCart(String(product.id)));
       console.log(product.id + "added");
@@ -41,7 +44,8 @@ const Product: React.FC<ProductProps> = ({ product }) => {
       dispatch(removeFromCart(String(product.id)));
       console.log(product.id + "removed");
     }
-  };
+  }, [inCart, product]);
+
   const [isDescriptionOpened, setIsDescriptionOpened] =
     useState<boolean>(false);
 

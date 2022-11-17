@@ -1,6 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCartShopping,
+  faCircleInfo,
+  faHeart,
+  faShop,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Navigation = () => {
   const setStyles = (isActive: boolean) =>
@@ -18,18 +25,18 @@ const Navigation = () => {
         to={"/products"}
         className={({ isActive }) => setStyles(isActive)}
       >
-        Products
+        Products <FontAwesomeIcon icon={faShop} />
       </NavLink>
 
-      <NavLink to={"/about"} className={({ isActive }) => setStyles(isActive)}>
-        About
-      </NavLink>
+      {/*<NavLink to={"/about"} className={({ isActive }) => setStyles(isActive)}>*/}
+      {/*  About <FontAwesomeIcon icon={faCircleInfo} />*/}
+      {/*</NavLink>*/}
 
       <NavLink to={"/likes"} className={({ isActive }) => setStyles(isActive)}>
-        Likes
+        Likes <FontAwesomeIcon icon={faHeart} />
       </NavLink>
       <NavLink to={"/cart"} className={({ isActive }) => setStyles(isActive)}>
-        Cart
+        Cart <FontAwesomeIcon icon={faCartShopping} />
       </NavLink>
     </div>
   );

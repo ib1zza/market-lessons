@@ -11,7 +11,7 @@ const LikesPage = () => {
     ids
   );
   return (
-    <div>
+    <div className={"container mx-auto max-w-6xl"}>
       {productsLoading && (
         <div
           className={
