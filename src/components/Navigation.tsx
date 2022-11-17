@@ -24,6 +24,10 @@ const Navigation = () => {
       <NavLink to={"/about"} className={({ isActive }) => setStyles(isActive)}>
         About
       </NavLink>
+
+      <NavLink to={"/likes"} className={({ isActive }) => setStyles(isActive)}>
+        Likes
+      </NavLink>
     </div>
   );
 };

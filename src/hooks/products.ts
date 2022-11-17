@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IProduct } from "../data/products";
+import { IProduct, notFoundProduct } from "../data/products";
 import axios, { AxiosError } from "axios";
 
 export const useProducts = (link: string) => {
@@ -26,6 +26,42 @@ export const useProducts = (link: string) => {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  return { products, productsLoading, productsError };
+};
+
+export const useProductsByIds = (link: string, ids: Array<string>) => {
+  const [productsError, setProductsError] = useState("");
+  const [products, setProducts] = useState<IProduct[]>([]);
+  const [productsLoading, setProductsLoading] = useState<boolean>(false);
+
+  async function fetchProducts() {
+    try {
+      setProductsError("");
+      setProductsLoading(true);
+      Promise.allSettled(
+        ids.map((el) => axios.get<IProduct>(link + "/" + el))
+      ).then((results) => {
+        setProducts(
+          results
+            .filter((el) => el.status === "fulfilled")
+            .map((el) =>
+              el.status === "fulfilled" ? el.value.data : notFoundProduct
+            )
+        );
+      });
+    } catch (e) {
+      const error = e as AxiosError;
+      console.log(error.message);
+      setProductsError(error.message);
+    } finally {
+      setProductsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchProducts();
+  }, [link, ids]);
 
   return { products, productsLoading, productsError };
 };

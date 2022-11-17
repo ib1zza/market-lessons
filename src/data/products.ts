@@ -11,4 +11,15 @@ export const products = [
   },
 ];
 
+export const notFoundProduct = {
+  id: 999,
+  title: "not found",
+  price: 0,
+  description:
+    "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+  category: "men's clothing",
+  image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+  rating: { rate: 0, count: 0 },
+};
+
 export type IProduct = typeof products[0];
