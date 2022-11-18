@@ -122,22 +122,3 @@ export const useSort = (mas: IProduct[]) => {
     sortedProducts,
   };
 };
-
-// export const useFetch = (url: string) => {
-//   const [error, setError] = useState<string>("");
-//   const [data, setData] = useState();
-//
-//   async function fetch() {
-//     setError("");
-//     const response = await axios.get(url);
-//     setData(response.data);
-//   }
-//   try {
-//     fetch();
-//   } catch (e) {
-//     const error = e as AxiosError;
-//     setError(error.message);
-//   }
-//
-//   return { data, error };
-// };

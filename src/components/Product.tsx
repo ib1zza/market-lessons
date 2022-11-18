@@ -34,8 +34,6 @@ const Product: React.FC<ProductProps> = ({ product }) => {
     }
   }, [liked, product]);
 
-  // useCallback();
-
   const cartHandler = useCallback(() => {
     if (!inCart.includes(String(product.id))) {
       dispatch(addToCart(String(product.id)));
@@ -86,18 +84,14 @@ const Product: React.FC<ProductProps> = ({ product }) => {
           {isDescriptionOpened ? "Hide description" : " Show description"}
         </button>
         <button
-          className={
-            "flex items-center p-3 bg-red-400 rounded-full " + likeBtnCol
-          }
+          className={"flex items-center p-3 rounded-full " + likeBtnCol}
           onClick={likesHandler}
         >
           {/*<span className={"mr-2"}>like</span>*/}
           <FontAwesomeIcon icon={faHeart} />
         </button>
         <button
-          className={
-            "flex items-center p-3 bg-red-400 rounded-full " + cartBtnCol
-          }
+          className={"flex items-center p-3 rounded-full " + cartBtnCol}
           onClick={cartHandler}
         >
           {/*<span className={"mr-2"}>like</span>*/}

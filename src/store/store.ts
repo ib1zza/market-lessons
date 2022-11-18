@@ -3,7 +3,7 @@ import userReducer from "./reducers/UserSlice";
 import productsReducer from "./reducers/ProductsSlice";
 import likesReducer from "./reducers/LikesSlice";
 import cartReducer from "./reducers/CartSlice";
-import { productAPI } from "./services/ProductServise";
+import { productAPI } from "./services/ProductService";
 
 const RootReducer = combineReducers({
   userReducer,

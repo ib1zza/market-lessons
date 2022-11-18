@@ -1,8 +1,13 @@
 import React from "react";
 import Product from "../components/Product";
-import { useFetchAllProductsQuery } from "../store/services/ProductServise";
+import {
+  useFetchAllProductsQuery,
+  useFetchProductQuery,
+} from "../store/services/ProductService";
 const About = () => {
-  const { data: products, isLoading } = useFetchAllProductsQuery(5);
+  // const { data: products, isLoading } = useFetchAllProductsQuery(5);
+  const { data: products, isLoading } = useFetchProductQuery(11);
+
   console.log(products);
   return (
     <div>
@@ -12,9 +17,10 @@ const About = () => {
       )}
       {products && (
         <div>
-          {products.map((el) => (
-            <Product product={el} key={el.id} />
-          ))}
+          {/*{products.map((el) => (*/}
+          {/*  <Product product={el} key={el.id} />*/}
+          {/*))}*/}
+          <Product product={products} />
         </div>
       )}
     </div>
