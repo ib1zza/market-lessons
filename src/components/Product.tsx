@@ -1,36 +1,41 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { IProduct } from "../data/products";
+import { IProduct, notFoundProduct } from "../data/products";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { addLike, removeLike } from "../store/reducers/LikesSlice";
 import { addToCart, removeFromCart } from "../store/reducers/CartSlice";
+import { useFetchProductQuery } from "../store/services/ProductService";
+import { data } from "autoprefixer";
 
 interface ProductProps {
   product: IProduct;
 }
 
 const Product: React.FC<ProductProps> = ({ product }) => {
+  const [product1, setProduct] = useState(notFoundProduct);
+  const { data: productFromFetch } = useFetchProductQuery(product.id);
+
   const liked = useAppSelector((state) => state.likesReducer.products);
   const inCart = useAppSelector((state) => state.cartReducer.products);
   const dispatch = useAppDispatch();
 
-  const likeBtnCol = liked.includes(String(product.id))
+  const likeBtnCol = liked.includes(String(product1.id))
     ? "bg-red-500 text-white"
     : "bg-gray-200 text-gray-700";
 
-  const cartBtnCol = inCart.includes(String(product.id))
+  const cartBtnCol = inCart.includes(String(product1.id))
     ? "bg-red-500 text-white"
     : "bg-gray-200 text-gray-700";
 
   const likesHandler = useCallback(() => {
-    if (!liked.includes(String(product.id))) {
-      dispatch(addLike(String(product.id)));
-      console.log(product.id + "added");
+    if (!liked.includes(String(product1.id))) {
+      dispatch(addLike(String(product1.id)));
+      console.log(product1.id + "added");
     } else {
-      dispatch(removeLike(String(product.id)));
-      console.log(product.id + "removed");
+      dispatch(removeLike(String(product1.id)));
+      console.log(product1.id + "removed");
     }
   }, [liked, product]);
 
@@ -51,6 +56,10 @@ const Product: React.FC<ProductProps> = ({ product }) => {
     "py-2 px-4 border rounded" +
     " " +
     (isDescriptionOpened ? "bg-blue-400" : "bg-yellow-400");
+
+  useEffect(() => {
+    setProduct(productFromFetch || notFoundProduct);
+  }, [productFromFetch]);
   return (
     <div
       className={
