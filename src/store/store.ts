@@ -3,17 +3,21 @@ import userReducer from "./reducers/UserSlice";
 import productsReducer from "./reducers/ProductsSlice";
 import likesReducer from "./reducers/LikesSlice";
 import cartReducer from "./reducers/CartSlice";
+import { productAPI } from "./services/ProductServise";
 
 const RootReducer = combineReducers({
   userReducer,
   productsReducer,
   likesReducer,
   cartReducer,
+  // [productsApi.reducerPath]: productsApi.reducer,
+  [productAPI.reducerPath]: productAPI.reducer,
 });
 
 export const setupStore = () => {
   return configureStore({
     reducer: RootReducer,
+    middleware: (gDM) => gDM().concat(productAPI.middleware),
   });
 };
 export type RootState = ReturnType<typeof RootReducer>;

@@ -28,9 +28,9 @@ const Navigation = () => {
         Products <FontAwesomeIcon icon={faShop} />
       </NavLink>
 
-      {/*<NavLink to={"/about"} className={({ isActive }) => setStyles(isActive)}>*/}
-      {/*  About <FontAwesomeIcon icon={faCircleInfo} />*/}
-      {/*</NavLink>*/}
+      <NavLink to={"/about"} className={({ isActive }) => setStyles(isActive)}>
+        About <FontAwesomeIcon icon={faCircleInfo} />
+      </NavLink>
 
       <NavLink to={"/likes"} className={({ isActive }) => setStyles(isActive)}>
         Likes <FontAwesomeIcon icon={faHeart} />
