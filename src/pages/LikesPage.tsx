@@ -37,7 +37,7 @@ const LikesPage = () => {
         </div>
       )}
       {products.map((el) => (
-        <Product product={el} key={el.id} />
+        <Product id={el.id} key={el.id} />
       ))}
     </div>
   );

@@ -1,9 +1,6 @@
 import React from "react";
 import Product from "../components/Product";
-import {
-  useFetchAllProductsQuery,
-  useFetchProductQuery,
-} from "../store/services/ProductService";
+import { useFetchProductQuery } from "../store/services/ProductService";
 const About = () => {
   // const { data: products, isLoading } = useFetchAllProductsQuery(5);
   const { data: products, isLoading } = useFetchProductQuery(11);
@@ -20,7 +17,7 @@ const About = () => {
           {/*{products.map((el) => (*/}
           {/*  <Product product={el} key={el.id} />*/}
           {/*))}*/}
-          <Product product={products} />
+          <Product id={products.id} />
         </div>
       )}
     </div>

@@ -33,7 +33,7 @@ const Products = () => {
         )}
         <div className={"container max-w-2xl pt-5"}>
           {sortedProducts.map((el) => (
-            <Product product={el} key={el.id} />
+            <Product id={el.id} key={el.id} />
           ))}
         </div>
         <div

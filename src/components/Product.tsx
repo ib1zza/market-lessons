@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { IProduct, notFoundProduct } from "../data/products";
+import { notFoundProduct } from "../data/products";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -7,35 +7,52 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { addLike, removeLike } from "../store/reducers/LikesSlice";
 import { addToCart, removeFromCart } from "../store/reducers/CartSlice";
 import { useFetchProductQuery } from "../store/services/ProductService";
-import { data } from "autoprefixer";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { SerializedError } from "@reduxjs/toolkit";
+import IProduct from "../models/IProduct";
 
 interface ProductProps {
-  product: IProduct;
+  id: number;
 }
 
-const Product: React.FC<ProductProps> = ({ product }) => {
-  const [product1, setProduct] = useState(notFoundProduct);
-  const { data: productFromFetch } = useFetchProductQuery(product.id);
+const Product: React.FC<ProductProps> = ({ id }) => {
+  const [product, setProduct] = useState<IProduct>(notFoundProduct);
+  const [error, setError] = useState<
+    FetchBaseQueryError | SerializedError | undefined
+  >();
+  const [isDescriptionOpened, setIsDescriptionOpened] =
+    useState<boolean>(false);
+
+  const {
+    data: productFromFetch,
+    isError,
+    error: fetchError,
+  } = useFetchProductQuery(id);
+
+  useEffect(() => setError(fetchError), [fetchError]);
+  useEffect(() => {
+    setProduct(productFromFetch || notFoundProduct);
+  }, [productFromFetch, error]);
 
   const liked = useAppSelector((state) => state.likesReducer.products);
   const inCart = useAppSelector((state) => state.cartReducer.products);
   const dispatch = useAppDispatch();
 
-  const likeBtnCol = liked.includes(String(product1.id))
+  const likeBtnCol = liked.includes(String(product.id))
     ? "bg-red-500 text-white"
     : "bg-gray-200 text-gray-700";
 
-  const cartBtnCol = inCart.includes(String(product1.id))
+  const cartBtnCol = inCart.includes(String(product.id))
     ? "bg-red-500 text-white"
     : "bg-gray-200 text-gray-700";
 
   const likesHandler = useCallback(() => {
-    if (!liked.includes(String(product1.id))) {
-      dispatch(addLike(String(product1.id)));
-      console.log(product1.id + "added");
+    if (!liked.includes(String(product.id))) {
+      dispatch(addLike(String(product.id)));
+      console.log(product.id + "added");
     } else {
-      dispatch(removeLike(String(product1.id)));
-      console.log(product1.id + "removed");
+      dispatch(removeLike(String(product.id)));
+      console.log(product.id + "removed");
     }
   }, [liked, product]);
 
@@ -49,17 +66,11 @@ const Product: React.FC<ProductProps> = ({ product }) => {
     }
   }, [inCart, product]);
 
-  const [isDescriptionOpened, setIsDescriptionOpened] =
-    useState<boolean>(false);
-
   const btnClassName =
     "py-2 px-4 border rounded" +
     " " +
     (isDescriptionOpened ? "bg-blue-400" : "bg-yellow-400");
 
-  useEffect(() => {
-    setProduct(productFromFetch || notFoundProduct);
-  }, [productFromFetch]);
   return (
     <div
       className={
@@ -96,14 +107,12 @@ const Product: React.FC<ProductProps> = ({ product }) => {
           className={"flex items-center p-3 rounded-full " + likeBtnCol}
           onClick={likesHandler}
         >
-          {/*<span className={"mr-2"}>like</span>*/}
           <FontAwesomeIcon icon={faHeart} />
         </button>
         <button
           className={"flex items-center p-3 rounded-full " + cartBtnCol}
           onClick={cartHandler}
         >
-          {/*<span className={"mr-2"}>like</span>*/}
           <FontAwesomeIcon icon={faCartShopping} />
         </button>
       </div>

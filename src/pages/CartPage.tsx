@@ -40,7 +40,7 @@ const CartPage = () => {
         <div className={"flex pt-16"}>
           <div className={"flex flex-col w-2/3 mr-3"}>
             {products.map((el) => (
-              <Product product={el} key={el.id} />
+              <Product id={el.id} key={el.id} />
             ))}
           </div>
           <div className={"rounded-2xl bg-gray-300 w-1/3"}>
