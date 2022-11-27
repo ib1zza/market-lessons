@@ -4,7 +4,7 @@ import { useAppSelector } from "../hooks/redux";
 import Product from "../components/Product";
 import { Link } from "react-router-dom";
 
-const LikesPage = () => {
+const FavouritesPage = () => {
   const ids: string[] = useAppSelector((state) => state.likesReducer.products);
   const { products, productsError, productsLoading } = useProductsByIds(
     "https://fakestoreapi.com/products",
@@ -43,4 +43,4 @@ const LikesPage = () => {
   );
 };
 
-export default LikesPage;
+export default FavouritesPage;

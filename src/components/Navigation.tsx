@@ -8,6 +8,7 @@ import {
   faHeart,
   faShop,
 } from "@fortawesome/free-solid-svg-icons";
+import { AppRoutes } from "../types/routes";
 
 const Navigation = () => {
   const setStyles = (isActive: boolean) =>
@@ -22,20 +23,30 @@ const Navigation = () => {
       }
     >
       <NavLink
-        to={"/products"}
+        to={AppRoutes.allProductsPage}
         className={({ isActive }) => setStyles(isActive)}
       >
         Products <FontAwesomeIcon icon={faShop} />
       </NavLink>
 
-      <NavLink to={"/about"} className={({ isActive }) => setStyles(isActive)}>
+      <NavLink
+        to={AppRoutes.aboutPage}
+        className={({ isActive }) => setStyles(isActive)}
+      >
         About <FontAwesomeIcon icon={faCircleInfo} />
       </NavLink>
 
-      <NavLink to={"/likes"} className={({ isActive }) => setStyles(isActive)}>
+      <NavLink
+        to={AppRoutes.favouritesPage}
+        className={({ isActive }) => setStyles(isActive)}
+      >
         Likes <FontAwesomeIcon icon={faHeart} />
       </NavLink>
-      <NavLink to={"/cart"} className={({ isActive }) => setStyles(isActive)}>
+
+      <NavLink
+        to={AppRoutes.cartPage}
+        className={({ isActive }) => setStyles(isActive)}
+      >
         Cart <FontAwesomeIcon icon={faCartShopping} />
       </NavLink>
     </div>

@@ -10,6 +10,7 @@ import { useFetchProductQuery } from "../store/services/ProductService";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { SerializedError } from "@reduxjs/toolkit";
 import IProduct from "../models/IProduct";
+import { AppRoutes } from "../types/routes";
 
 interface ProductProps {
   id: number;
@@ -78,7 +79,7 @@ const Product: React.FC<ProductProps> = ({ id }) => {
       }
     >
       <div className={"w-1/4"}>
-        <Link to={`${product.id}`}>
+        <Link to={`${AppRoutes.allProductsPage}/${product.id}`}>
           <img src={product.image} className={""} alt={product.title} />
         </Link>
       </div>

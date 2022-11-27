@@ -14,13 +14,28 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState("");
+
   const {
-    data,
     isLoading,
     isError,
     refetch,
     currentData: fetchdatacurrent,
   } = useFetchAllProductsQuery(currentPage * 5 <= 20 ? currentPage * 5 : 20);
+
+  // const {
+  //   query,
+  //   priseMin,
+  //   priseHigh,
+  //   setQuery,
+  //   setPriseHigh,
+  //   setPriseMin,
+  //   sortedProducts,
+  // } = useSort(currentData);
+
+  //при монтировании компонента начинаем запрос на получение данных о первой странице
+  useEffect(() => {
+    setFetching(true);
+  }, []);
 
   const scrollHandler = useCallback((e: any) => {
     if (
@@ -33,21 +48,22 @@ const Products = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (fetchdatacurrent) setCurrentData(fetchdatacurrent);
-  }, [fetchdatacurrent]);
+  // useEffect(() => {
+  //   if (fetchdatacurrent) setCurrentData(fetchdatacurrent);
+  // }, [fetchdatacurrent]);
 
   useEffect(() => {
     if (fetching) {
       console.log("fetching " + currentPage * 5);
+
       refetch()
         .then((res) => {
           setCurrentPage((prev) => (prev > 4 ? 4 : ++prev));
-          setFetching(false);
           return res;
         })
         .then((res) => {
           if (res.data) {
+            setFetching(false);
             setCurrentData(res.data);
           }
         });
@@ -61,18 +77,7 @@ const Products = () => {
     return function () {
       document.removeEventListener("scroll", scrollHandler);
     };
-  });
-
-  // const {
-  //   query,
-  //   priseMin,
-  //   priseHigh,
-  //   setQuery,
-  //   setPriseHigh,
-  //   setPriseMin,
-  //   sortedProducts,
-  // } = useSort(products);
-  //
+  }, []);
 
   if (!currentData && !isLoading) {
     return null;
@@ -90,6 +95,11 @@ const Products = () => {
         <div className={"container max-w-2xl pt-5"}>
           {currentData &&
             currentData.map((el) => <Product id={el.id} key={el.id} />)}
+          {fetching && (
+            <div className={"font-bold text-2xl text-center w-full"}>
+              loading please wait
+            </div>
+          )}
         </div>
         {/*<div*/}
         {/*  className={"container pt-5 max-w-2xl [&>:not(:last-child)]:mb-4 px-4"}*/}
