@@ -6,6 +6,7 @@ import {
   faCartShopping,
   faCircleInfo,
   faHeart,
+  faHouseChimney,
   faShop,
 } from "@fortawesome/free-solid-svg-icons";
 import { AppRoutes } from "../types/routes";
@@ -14,14 +15,18 @@ const Navigation = () => {
   const setStyles = (isActive: boolean) =>
     isActive ? "text-amber-50" : "text-amber-600 hover:text-amber-200";
 
-  const StyledNavLink = styled.div``;
-
   return (
     <div
       className={
         "flex align-middle justify-start bg-gray-700 p-2 text-amber-400 text-2xl font-bold [&>:not(:last-child)]:mr-4"
       }
     >
+      <NavLink
+        to={AppRoutes.homePage}
+        className={({ isActive }) => setStyles(isActive)}
+      >
+        Home <FontAwesomeIcon icon={faHouseChimney} />
+      </NavLink>
       <NavLink
         to={AppRoutes.allProductsPage}
         className={({ isActive }) => setStyles(isActive)}

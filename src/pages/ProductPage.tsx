@@ -7,11 +7,7 @@ import { useProducts, useProduct } from "../hooks/products";
 import "../css/_ibg.scss";
 import { Link, useParams } from "react-router-dom";
 
-interface ProductProps {
-  propsProduct?: IProduct;
-}
-
-const ProductPage: React.FC<ProductProps> = ({ propsProduct }) => {
+const ProductPage: React.FC = () => {
   const { id } = useParams();
   const { loading, product, error } = useProduct(
     `https://fakestoreapi.com/products/${id}`

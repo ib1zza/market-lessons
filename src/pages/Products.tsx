@@ -7,9 +7,6 @@ import { useFetchAllProductsQuery } from "../store/services/ProductService";
 import IProduct from "../models/IProduct";
 
 const Products = () => {
-  // const { productsLoading, products, productsError } = useProducts(
-  //   "https://fakestoreapi.com/products?limit=50"
-  // );
   const [currentData, setCurrentData] = useState<IProduct[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [fetching, setFetching] = useState(false);
@@ -21,16 +18,6 @@ const Products = () => {
     refetch,
     currentData: fetchdatacurrent,
   } = useFetchAllProductsQuery(currentPage * 5 <= 20 ? currentPage * 5 : 20);
-
-  // const {
-  //   query,
-  //   priseMin,
-  //   priseHigh,
-  //   setQuery,
-  //   setPriseHigh,
-  //   setPriseMin,
-  //   sortedProducts,
-  // } = useSort(currentData);
 
   //при монтировании компонента начинаем запрос на получение данных о первой странице
   useEffect(() => {
