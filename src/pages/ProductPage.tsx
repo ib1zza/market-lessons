@@ -6,8 +6,11 @@ import Button from "../UI/Button";
 import { useProducts, useProduct } from "../hooks/products";
 import "../css/_ibg.scss";
 import { Link, useParams } from "react-router-dom";
+import { useAppDispatch } from "../hooks/redux";
+import { addToCart } from "../store/reducers/CartSlice";
 
 const ProductPage: React.FC = () => {
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   const { loading, product, error } = useProduct(
     `https://fakestoreapi.com/products/${id}`
@@ -70,7 +73,12 @@ const ProductPage: React.FC = () => {
               <div className={"font-bold text-3xl mb-4"}>
                 {product.price + "$"}
               </div>
-              <Button className={"w-full "}>Buy now!</Button>
+              <Button
+                className={"w-full "}
+                onClick={() => dispatch(addToCart(String(product.id)))}
+              >
+                Buy now!
+              </Button>
             </div>
           </div>
           <div className={"container mx-auto  max-w-6xl pt-16"}>
@@ -98,7 +106,9 @@ const ProductPage: React.FC = () => {
                     </Link>
                   </div>
                   <div className={"flex justify-between items-center mt-2"}>
-                    <Button>Add to cart</Button>
+                    <Button onClick={() => dispatch(addToCart(String(el.id)))}>
+                      Add to cart
+                    </Button>
                     <p className={"font-bold text-xl "}>
                       {Math.floor(el.price) + "$"}
                     </p>

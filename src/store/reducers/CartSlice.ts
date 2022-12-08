@@ -12,9 +12,11 @@ export const CartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    //payload = id
     addToCart: (state, action: PayloadAction<string>) => {
       state.products.push(action.payload);
     },
+    //payload = id
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.products = state.products.filter((el) => el !== action.payload);
     },
