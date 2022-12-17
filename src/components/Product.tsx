@@ -5,55 +5,56 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { addLike, removeLike } from "../store/reducers/LikesSlice";
-import { addToCart, removeFromCart } from "../store/reducers/CartSlice";
-import { useFetchProductQuery } from "../store/services/ProductService";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { SerializedError } from "@reduxjs/toolkit";
+import {
+  useAddToCartMutation,
+  useFetchProductQuery,
+  useGetProductsFromCartQuery,
+  useRemoveFromCartMutation,
+  useAddToFavouritesMutation,
+  useRemoveFromFavouritesMutation,
+} from "../store/services/ProductService";
 import IProduct from "../models/IProduct";
 import { AppRoutes } from "../types/routes";
 
 interface ProductProps {
-
-  product: IProduct,
+  product: IProduct;
+  isLiked: boolean;
+  isInCart: boolean;
 }
 
-const Product: React.FC<ProductProps> = ( {product}) => {
-  // const [product, setProduct] = useState<IProduct>(notFoundProduct);
-  const [error, setError] = useState<
-    FetchBaseQueryError | SerializedError | undefined
-  >();
-  const data = product;
+const Product: React.FC<ProductProps> = ({ product, isInCart, isLiked }) => {
+  const [addToCart, { error }] = useAddToCartMutation();
+  const [removeFromCart, { error: removeeroor }] = useRemoveFromCartMutation();
 
-  const liked = useAppSelector((state) => state.likesReducer.products);
-  const inCart = useAppSelector((state) => state.cartReducer.products);
-  const dispatch = useAppDispatch();
+  const [addToFavourites] = useAddToFavouritesMutation();
+  const [removeFromFavourites] = useRemoveFromFavouritesMutation();
 
-  const likeBtnCol = liked.includes(String(product.id))
+  const likeBtnCol = isLiked
     ? "bg-red-500 text-white"
     : "bg-gray-200 text-gray-700";
 
-  const cartBtnCol = inCart.includes(String(product.id))
+  const cartBtnCol = isInCart
     ? "bg-red-500 text-white"
     : "bg-gray-200 text-gray-700";
 
   const likesHandler = useCallback(() => {
-    if (!liked.includes(String(product.id))) {
-      dispatch(addLike(String(product.id)));
+    if (!isLiked) {
+      addToFavourites(product.id);
       console.log(product.id + "added");
     } else {
-      dispatch(removeLike(String(product.id)));
+      removeFromFavourites(product.id);
       console.log(product.id + "removed");
     }
-  }, [liked, product]);
+  }, [isLiked, product]);
   const cartHandler = useCallback(() => {
-    if (!inCart.includes(String(product.id))) {
-      dispatch(addToCart(String(product.id)));
+    if (!isInCart) {
+      addToCart(product.id);
       console.log(product.id + "added");
     } else {
-      dispatch(removeFromCart(String(product.id)));
+      removeFromCart(product.id);
       console.log(product.id + "removed");
     }
-  }, [inCart, product]);
+  }, [isInCart, product]);
 
   return (
     <div

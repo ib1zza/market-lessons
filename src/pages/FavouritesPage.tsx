@@ -3,12 +3,19 @@ import { useProductsByIds } from "../hooks/products";
 import { useAppSelector } from "../hooks/redux";
 import Product from "../components/Product";
 import { Link } from "react-router-dom";
+import {
+  useGetProductsFromCartQuery,
+  useGetProductsFromFavouritesQuery,
+} from "../store/services/ProductService";
 
 const FavouritesPage = () => {
-  const ids: string[] = useAppSelector((state) => state.likesReducer.products);
+  const { data: ids } = useGetProductsFromFavouritesQuery(Infinity);
+  const { data: Favourites } = useGetProductsFromFavouritesQuery(Infinity);
+  const { data: Cart } = useGetProductsFromCartQuery(Infinity);
+  // const ids: string[] = useAppSelector((state) => state.likesReducer.products);
   const { products, productsError, productsLoading } = useProductsByIds(
     "https://fakestoreapi.com/products",
-    ids
+    ids?.map((el) => String(el)) || []
   );
   return (
     <div className={"container mx-auto max-w-6xl"}>
@@ -37,7 +44,12 @@ const FavouritesPage = () => {
         </div>
       )}
       {products.map((el) => (
-        <Product product={el} key={el.id} />
+        <Product
+          product={el}
+          key={el.id}
+          isLiked={Favourites?.includes(el.id) || false}
+          isInCart={Cart?.includes(el.id) || false}
+        />
       ))}
     </div>
   );

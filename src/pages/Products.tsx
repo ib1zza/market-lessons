@@ -3,23 +3,21 @@ import Product from "../components/Product";
 import { useProducts, useSort } from "../hooks/products";
 import SearchBar from "../UI/SearchBar";
 import Input from "../UI/Input";
-import { useFetchAllProductsQuery } from "../store/services/ProductService";
+import {
+  useFetchAllProductsQuery,
+  useGetProductsFromCartQuery,
+  useGetProductsFromFavouritesQuery,
+} from "../store/services/ProductService";
 import IProduct from "../models/IProduct";
 
 const Products = () => {
-  const [currentData, setCurrentData] = useState<IProduct[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const { data: Favourites } = useGetProductsFromFavouritesQuery(Infinity);
+  const { data: Cart } = useGetProductsFromCartQuery(Infinity);
 
-  const [error, setError] = useState("");
-
-  const {
-    isLoading,
-    isError,
-    refetch,
-    currentData: fetchdatacurrent,
-    data,
-    isFetching,
-  } = useFetchAllProductsQuery(currentPage * 5);
+  const { isLoading, isError, data, isFetching } = useFetchAllProductsQuery(
+    currentPage * 5
+  );
 
   useEffect(() => {}, [isFetching]);
 
@@ -41,8 +39,6 @@ const Products = () => {
     }
   };
 
-  useEffect(() => console.log(error), [error]);
-
   useEffect(() => {
     document.addEventListener("scroll", scrollHandler);
     return function () {
@@ -60,7 +56,15 @@ const Products = () => {
         )}
         {isError && <p className={"text-center text-red-600"}>{"Error"}</p>}
         <div className={"container max-w-2xl pt-5"}>
-          {data && data.map((el) => <Product product={el} key={el.id} />)}
+          {data &&
+            data.map((el) => (
+              <Product
+                product={el}
+                key={el.id}
+                isLiked={Favourites?.includes(el.id) || false}
+                isInCart={Cart?.includes(el.id) || false}
+              />
+            ))}
           {isLoading && (
             <div className={"font-bold text-2xl text-center w-full"}>
               loading please wait

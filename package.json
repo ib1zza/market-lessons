@@ -29,10 +29,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm start\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "json-server -w server/db.json -p 3001"
   },
   "eslintConfig": {
     "extends": [
@@ -55,6 +57,8 @@
   "devDependencies": {
     "@types/styled-components": "^5.1.26",
     "autoprefixer": "^10.4.13",
+    "concurrently": "^7.6.0",
+    "json-server": "^0.17.1",
     "postcss": "^8.4.18",
     "tailwindcss": "^3.2.3"
   }
