@@ -8,8 +8,8 @@ import IProduct from "../models/IProduct";
 
 const Products = () => {
   const [currentData, setCurrentData] = useState<IProduct[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [fetching, setFetching] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+
   const [error, setError] = useState("");
 
   const {
@@ -17,45 +17,29 @@ const Products = () => {
     isError,
     refetch,
     currentData: fetchdatacurrent,
-  } = useFetchAllProductsQuery(currentPage * 5 <= 20 ? currentPage * 5 : 20);
+    data,
+    isFetching,
+  } = useFetchAllProductsQuery(currentPage * 5);
+
+  useEffect(() => {}, [isFetching]);
 
   //при монтировании компонента начинаем запрос на получение данных о первой странице
   useEffect(() => {
-    setFetching(true);
+    setCurrentPage((prevState) => prevState + 1);
   }, []);
 
-  const scrollHandler = useCallback((e: any) => {
+  const scrollHandler = (e: any) => {
+    if (isFetching) return;
     if (
       e.target.documentElement.scrollHeight -
         (e.target.documentElement.scrollTop + window.innerHeight) <
       100
     ) {
-      console.log("scroll");
-      setFetching(true);
+      setCurrentPage((prevState) =>
+        prevState > 4 ? prevState : prevState + 1
+      );
     }
-  }, []);
-
-  // useEffect(() => {
-  //   if (fetchdatacurrent) setCurrentData(fetchdatacurrent);
-  // }, [fetchdatacurrent]);
-
-  useEffect(() => {
-    if (fetching) {
-      console.log("fetching " + currentPage * 5);
-
-      refetch()
-        .then((res) => {
-          setCurrentPage((prev) => (prev > 4 ? 4 : ++prev));
-          return res;
-        })
-        .then((res) => {
-          if (res.data) {
-            setFetching(false);
-            setCurrentData(res.data);
-          }
-        });
-    }
-  }, [fetching]);
+  };
 
   useEffect(() => console.log(error), [error]);
 
@@ -64,11 +48,7 @@ const Products = () => {
     return function () {
       document.removeEventListener("scroll", scrollHandler);
     };
-  }, []);
-
-  if (!currentData && !isLoading) {
-    return null;
-  }
+  }, [isFetching]);
 
   return (
     <>
@@ -80,9 +60,8 @@ const Products = () => {
         )}
         {isError && <p className={"text-center text-red-600"}>{"Error"}</p>}
         <div className={"container max-w-2xl pt-5"}>
-          {currentData &&
-            currentData.map((el) => <Product id={el.id} key={el.id} />)}
-          {fetching && (
+          {data && data.map((el) => <Product product={el} key={el.id} />)}
+          {isLoading && (
             <div className={"font-bold text-2xl text-center w-full"}>
               loading please wait
             </div>

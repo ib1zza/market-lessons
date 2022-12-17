@@ -1,11 +1,29 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const HomePage = () => {
+  const [modal, setModal] = useState(false);
   const animationVariants = {
     hidden: { x: -1000, opacity: 0 },
     visible: { x: 0, opacity: 1 },
   };
+
+  const listVariants = {
+    visible: (i: number) => ({
+      opacity: 1,
+      transition: {
+        delay: i * 0.4,
+      },
+    }),
+    hidden: (i: number) => ({
+      opacity: 0,
+      transition: {
+        delay: i * 0.4,
+      },
+    }),
+  };
+
+  const items = ["Item1", "Item2", "Item3"];
   return (
     <>
       <motion.h1
@@ -32,9 +50,26 @@ const HomePage = () => {
         }}
       />
       <br />
-      <motion.a whileHover={{ scaleY: 2, color: "red" }}>
+      <motion.a whileHover={{ scaleY: 1.2, color: "red" }}>
         Animated link!
       </motion.a>
+
+      <AnimatePresence>
+        {modal &&
+          items.map((el, ind) => (
+            <motion.li
+              key={el}
+              variants={listVariants}
+              initial={"hidden"}
+              animate={"visible"}
+              custom={ind}
+              exit={"hidden"}
+            >
+              {el}
+            </motion.li>
+          ))}
+      </AnimatePresence>
+      <button onClick={() => setModal(!modal)}>set modal</button>
     </>
   );
 };

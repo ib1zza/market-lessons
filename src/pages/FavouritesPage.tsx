@@ -37,7 +37,7 @@ const FavouritesPage = () => {
         </div>
       )}
       {products.map((el) => (
-        <Product id={el.id} key={el.id} />
+        <Product product={el} key={el.id} />
       ))}
     </div>
   );

@@ -17,7 +17,7 @@ const About = () => {
           {/*{products.map((el) => (*/}
           {/*  <Product product={el} key={el.id} />*/}
           {/*))}*/}
-          <Product id={products.id} />
+          <Product product={products} />
         </div>
       )}
     </div>

@@ -13,27 +13,16 @@ import IProduct from "../models/IProduct";
 import { AppRoutes } from "../types/routes";
 
 interface ProductProps {
-  id: number;
+
+  product: IProduct,
 }
 
-const Product: React.FC<ProductProps> = ({ id }) => {
-  const [product, setProduct] = useState<IProduct>(notFoundProduct);
+const Product: React.FC<ProductProps> = ( {product}) => {
+  // const [product, setProduct] = useState<IProduct>(notFoundProduct);
   const [error, setError] = useState<
     FetchBaseQueryError | SerializedError | undefined
   >();
-  const [isDescriptionOpened, setIsDescriptionOpened] =
-    useState<boolean>(false);
-
-  const {
-    data: productFromFetch,
-    isError,
-    error: fetchError,
-  } = useFetchProductQuery(id);
-
-  useEffect(() => setError(fetchError), [fetchError]);
-  useEffect(() => {
-    setProduct(productFromFetch || notFoundProduct);
-  }, [productFromFetch, error]);
+  const data = product;
 
   const liked = useAppSelector((state) => state.likesReducer.products);
   const inCart = useAppSelector((state) => state.cartReducer.products);
@@ -56,7 +45,6 @@ const Product: React.FC<ProductProps> = ({ id }) => {
       console.log(product.id + "removed");
     }
   }, [liked, product]);
-
   const cartHandler = useCallback(() => {
     if (!inCart.includes(String(product.id))) {
       dispatch(addToCart(String(product.id)));
@@ -67,15 +55,10 @@ const Product: React.FC<ProductProps> = ({ id }) => {
     }
   }, [inCart, product]);
 
-  const btnClassName =
-    "py-2 px-4 border rounded" +
-    " " +
-    (isDescriptionOpened ? "bg-blue-400" : "bg-yellow-400");
-
   return (
     <div
       className={
-        "border-2 py-2 px-4 rounded flex items-start mb-2 [&>:not(:last-child)]:mr-4"
+        "w-full border-2 py-2 px-4 rounded flex items-start mb-2 [&>:not(:last-child)]:mr-4 justify-between"
       }
     >
       <div className={"w-1/4"}>
@@ -84,26 +67,22 @@ const Product: React.FC<ProductProps> = ({ id }) => {
         </Link>
       </div>
       <div className={"w-1/2"}>
-        <p>{product.title}</p>
+        <p className={"font-bold"}>{product.title}</p>
         <p className={"font-bold"}>{product.price + "$"}</p>
 
-        {isDescriptionOpened && (
-          <div className={"w-full"}>
-            <span className={"font-bold"}>{product.description}</span>
-            <p>
-              Rate:{" "}
-              <span style={{ fontWeight: "bold" }}>{product.rating.rate}</span>
-            </p>
-          </div>
-        )}
+        <div className={"w-full"}>
+          <span>{product.description}</span>
+          <p>
+            Rate:{" "}
+            <span style={{ fontWeight: "bold" }}>{product.rating.rate}</span>
+          </p>
+        </div>
       </div>
-      <div className={"flex flex-col items-center"}>
-        <button
-          className={btnClassName}
-          onClick={() => setIsDescriptionOpened(!isDescriptionOpened)}
-        >
-          {isDescriptionOpened ? "Hide description" : " Show description"}
-        </button>
+      <div
+        className={
+          "flex flex-col items-center justify-self-end [&>:not(:last-child)]:mb-2"
+        }
+      >
         <button
           className={"flex items-center p-3 rounded-full " + likeBtnCol}
           onClick={likesHandler}
